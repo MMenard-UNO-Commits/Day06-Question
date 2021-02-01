@@ -1,0 +1,74 @@
+<!-- This is a comment in HTML-->
+<!DOCTYPE html>
+<!-- This tells the browser you are using html 5. It's not required, but including it is considered a best practice.-->
+<html>
+<!-- Opening html tag. Like many formats, html requires there to be one root node.-->
+
+<head>
+    <!-- The place for meta data about your page-->
+    <title>Game, Day 5</title><!-- The text that will appear in your browser tab-->
+    <!-- This is where you put your CCS (styling) information-->
+    <style>
+        /* This is a comment in css */
+        /* css uses selectors. A name without a prefix selects built-in html elements. A name with a '.' prefix selects elements with that class name. A name with a '#' prefix selects elements with that id.*/
+        body {
+            margin: 0;
+            /* Remove the default margin so our game can fill the screen. */
+        }
+    </style>
+    <!-- Originally, javascript was put in the head. Now it's best practice to put it at the end of the <body> node so the page can load faster. -->
+</head>
+
+<body>
+    <!-- This is what will actually be displayed on the webpage. -->
+    <canvas id="canv">
+        <!-- This is the canvas we will draw to. It needs an id so we can get a reference to it in javascript-->
+    </canvas>
+
+
+
+    <!-- The actual javascript-->
+    <script type="module">
+        //This is a comment in javascript
+        /* This is a block comment in javascript. */
+
+        import RedRectangle from "./game/red-rectangle.js"
+        import FirstScene from "./game/first-scene.js"
+
+        let canvas = document.getElementById("canv"); //Get a reference to our canvas. Note that in older tutorials you may see variable declarations that start with 'var' or no keyword before the variable name (i.e. name = 'Bob'). The best practice in 2021 is to use the keyword 'let'. Variables can also be declared with 'const'. This means a variable cannot be reassigned (otherwise it throws an exception).
+        canvas.width = window.innerWidth; //Get the size of the browser window itself.
+        canvas.height = window.innerHeight //Note that ;s are optional in javascript.
+
+        let ctx = canvas.getContext("2d");//A canvas has both a 2d and 3d context. You can lean about the 3d context in CSCI 4620
+
+        function clear() {
+            ctx.fillStyle = "black"; //Whenever we call a draw function that starts with 'fill' will use this color
+            ctx.fillRect(0, 0, canvas.width, canvas.height); //Clear the canvas so we can draw to it.
+        }
+        //A class declaration in javascript. Note that you don't need a visibility modifier (e.g. public) in front of a class declaration.
+
+        let firstScene = new FirstScene();
+        let red = new RedRectangle();
+        firstScene.addChild(red);
+
+        let red2 = new RedRectangle();
+        red2.x = 300;
+        red2.y = 300;
+        firstScene.addChild(red2);
+
+        //Draw and update the gameObject. Notice that we aren't clearing the screen so the rectangle looks like a smudge.
+        function gameLoop() {
+            clear();
+            // red.draw(ctx);
+            // red.update();
+            firstScene.draw(ctx);
+            firstScene.update();
+
+        }
+
+        setInterval(gameLoop, 60 / 1000 /*milliseconds*/)
+
+    </script>
+</body>
+
+</html>
